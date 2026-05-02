@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time of Day by Beckham Kunda </title>
+    <title>Time of Day by Beckham Kunda</title>
     
     <style>
         /* We target the HTML element directly for our background color swap */
         html {
-            background-color: #f4f4f9; 
+            background-color: #f4f4f9;
             transition: background-color 0.5s ease; /* Makes the color change smooth */
         }
 
@@ -31,13 +31,24 @@
 
         /* Styling our main image */
         #time-pic {
-          max-width: 300px; /* Keeps our variable-sized images consistent */
-          height: auto;     /* Prevents stretching/squishing */
+          max-width: 300px;
+          /* Keeps our variable-sized images consistent */
+          height: auto;
+          /* Prevents stretching/squishing */
           border-radius: 8px;
           margin-top: 20px;
-          
           /* Adds a "Snazzy" Shadow: horizontal, vertical, blur, spread, and color */
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Styling for the explanation text */
+        .explanation {
+            text-align: left;
+            margin-top: 30px;
+            font-size: 0.9em;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -48,49 +59,57 @@
         
         <h2 id="time-text">What time is it?</h2>
 
-        <p>This page will change based on the hour of the day.</p>
-        <p>Add your explanation of what the page does, and how it works here.</p>
-
         <img id="time-pic" src="https://dummyimage.com/300x400" alt="Time of Day Image">
+
+        <div class="explanation">
+            <p>This page uses JavaScript to determine the current hour and present a different image, custom message, and color based on each of the following times of day:</p>
+            <ul>
+                <li>Morning (5am to noon)</li>
+                <li>Afternoon (12 noon to 6pm)</li>
+                <li>Evening (6pm to 11pm)</li>
+                <li>Night (11pm to 5am)</li>
+            </ul>
+            <p><strong>To do this:</strong> I am using a compound <code>if/else</code> block and selecting ranges using the <code>getHours()</code> method of the JavaScript <code>Date</code> object. I also use <code>document.getElementById</code> and <code>document.querySelector</code> to identify items on the page to change dynamically.</p>
+        </div>
     </div>
 
     <script>
-        // We will use this section to write our if/else logic
-        // Example: document.querySelector('#time-text').innerHTML = "Good Morning!";
-        
-        /* Below, we would target the 'html' element to change 
-           the background color using document.querySelector('html') 
-        */
+        // Set up our variables
+        let myDate = new Date();
+        let myHour = myDate.getHours();
+        let mySentence = "";
+        let myColor = "";
+        let myPic = "";
 
+        // EXTRA CREDIT: Array for Days of the Week
+        let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        let myDay = days[myDate.getDay()]; // getDay() returns 0 for Sunday, 1 for Monday, etc.
 
-
-        myDate=new Date();
-        myHour = myDate.getHours();
-        mySentence = "";
-        myColor = "";
-
-        if(myHour >= 12){
-            //alert("it's after noon!");
-            mySentence = "its after noon!";
+        // Compound IF block for Time Ranges
+        if (myHour >= 5 && myHour < 12) {
+            mySentence = "Good Morning!";
+            myColor = "orange";
+            myPic = "images/morning.jpg"; 
+        } else if (myHour >= 12 && myHour < 18) {
+            mySentence = "Good Afternoon!";
+            myColor = "green";
+            myPic = "images/afternoon.jpg"; 
+        } else if (myHour >= 18 && myHour < 23) {
+            mySentence = "Good Evening!";
             myColor = "blue";
-        }else{
-            alert("it's not the 6 o'clock hour");
-            mySentence = "its not after noon!";
+            myPic = "images/evening.jpg"; 
+        } else {
+            // Everything else falls into night
+            mySentence = "Good Night!";
             myColor = "purple";
+            myPic = "images/night.jpg"; 
         }
 
-        document.getElementById("time-text").innerHTML = mySentence;
-        //document.body.style.backgroundColor = myColor;
-        document.querySelector('html').style.backgroundColor = myColor
-    
-
-
-
-
-
-
-
-
+        // Apply changes to the HTML (DOM)
+        // Extra Credit: Combine the day of the week with the greeting
+        document.getElementById("time-text").innerHTML = "Happy " + myDay + "! " + mySentence;
+        document.querySelector('html').style.backgroundColor = myColor;
+        document.getElementById("time-pic").src = myPic;
 
 
         // Fixes HTML/CSS Checker links
@@ -103,7 +122,7 @@
 
     <footer style="margin-top: 30px;">
         <small>
-            <a id="html-validate" href="" target="_blank">Check HTML</a> | 
+            <a id="html-validate" href="" target="_blank">Check HTML</a> |
             <a id="css-validate" href="" target="_blank">Check CSS</a>
         </small>
     </footer>
